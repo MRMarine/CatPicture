@@ -15,10 +15,16 @@ class CatPictureApp : public AppBasic {
 	float red, green, blue;
 };
 
+// this is the function called to setup the app.  Variables are initialized here.
 void CatPictureApp::setup()
 {
+	red = 0;
+	green = 0;
+	blue = 0;
 }
 
+// this function is run whenever a mouse button is pressed down.
+// I'm assuming it only works for left, middle, and right mouse buttons, as the forward/backward buttons on my mouse do not trigger this function.
 void CatPictureApp::mouseDown( MouseEvent event )
 {
 	// change the screen color by checking the mouse position in the window
@@ -35,10 +41,13 @@ void CatPictureApp::mouseDown( MouseEvent event )
 	blue = (float)(rand() % 10 / 10.0);
 }
 
+// This is the update function to update variables and such as needed.
 void CatPictureApp::update()
 {
+	// no updates to check
 }
 
+// this is the draw function to display things in the window created.
 void CatPictureApp::draw()
 {
 	// clear out the window to the value determined by the RGB set in mouseDown( MouseEvent )
