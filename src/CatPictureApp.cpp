@@ -38,13 +38,18 @@ void CatPictureApp::mouseDown( MouseEvent event )
 	red = (float)(event.getX()) / window_viewport[2];
 	green = (float)(event.getY()) / window_viewport[3];
 	// set the blue ratio to a random float between 0 and 1.
-	blue = (float)(rand() % 10 / 10.0);
+	blue = 0;
 }
 
 // This is the update function to update variables and such as needed.
 void CatPictureApp::update()
 {
-	// no updates to check
+	if(blue < 1.0){
+		blue += 0.01;
+	}
+	else{
+		blue = 0;
+	}
 }
 
 // this is the draw function to display things in the window created.
