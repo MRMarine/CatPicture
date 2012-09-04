@@ -109,6 +109,14 @@
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\include;C:\cinder\cinder_0.8.4_vc2010\include;C:\cinder\cinder_0.8.4_vc2010\boost</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\MatthewStartScreen.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
