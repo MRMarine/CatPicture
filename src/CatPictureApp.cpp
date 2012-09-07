@@ -64,6 +64,9 @@ void CatPictureApp::prepareSettings(Settings* settings){
 }
 
 // fill rectangular region with black color
+
+// you might want to think of instead of 2 arrays for the positions, 4 ints might be more efficient
+// I didn't change any methods to this as all of yours use the arrays and it is not a big difference
 void CatPictureApp::rect(int* pos1, int* pos2){
 	if(pos1[0] > pos2[0] ||
 		pos1[1] > pos2[1] ||
@@ -129,21 +132,19 @@ void CatPictureApp::rect(int* pos1, int* pos2, uint8_t* color){
 
 // copies a rectangular area of the surface and pastes it elsewhere
 void CatPictureApp::copy(int* cpyFrom1, int* cpyFrom2, int* cpyTo){
-	if(cpyFrom1[0] > cpyFrom2[0] ||
-		cpyFrom1[1] > cpyFrom2[1] ||
-		cpyFrom2[0] > imgWidth_ ||
-		cpyFrom2[1] > imgHeight_){
-			console() << "Copy parameters out of range" << std::endl;
 
-			if(cpyFrom1[0] > cpyFrom2[0]){
-				console() << "First condition " << cpyFrom1[0] << " " << cpyFrom2[0] << endl;
-			}else if(cpyFrom1[1] > cpyFrom2[1]){
-				console() << "Second condition " << cpyFrom1[1] << " " << cpyFrom2[1] << endl;
-			}else if(cpyFrom2[0] > imgWidth_){
-				console() << "Third condition " << cpyFrom2[0] << " " << imgWidth_ << endl;
-			}else{
-				console() << "Fourth condition " << cpyFrom2[1] << " " << imgHeight_ << endl;
-			}
+	//These if statements check the same things twice in a row
+	//combining them could shorten the amount of operations performed
+	//You could omit the "Copy parameters out of range line" and add "Copy" to each printing of a condition
+	//This could be applied elsewhere in the program as well
+	if(cpyFrom1[0] > cpyFrom2[0]){
+		console() << "Copy First condition " << cpyFrom1[0] << " " << cpyFrom2[0] << endl;
+	}else if(cpyFrom1[1] > cpyFrom2[1]){
+		console() << "Copy Second condition " << cpyFrom1[1] << " " << cpyFrom2[1] << endl;
+	}else if(cpyFrom2[0] > imgWidth_){
+		console() << "Copy Third condition " << cpyFrom2[0] << " " << imgWidth_ << endl;
+	}else if(cpyFrom2[1] > imgHeight_){
+		console() << "Copy Fourth condition " << cpyFrom2[1] << " " << imgHeight_ << endl;
 	}
 
 	int* difference = new int[2];
@@ -303,6 +304,10 @@ void CatPictureApp::setup()
 // Take a screenshot and save it.
 // This method dynamically allocates pictures per instance of the program.
 // Running it multiple times will not save the screenShot count, so it will override previous images
+
+//Creating a second surface seems unnecessary
+//You could just use *m_surface as the parameter in writeImage
+//This could avoid the for loops and simplify the method
 void CatPictureApp::screenShot(){
 	// Create the filename to use
 	stringstream nameStream;
@@ -310,21 +315,21 @@ void CatPictureApp::screenShot(){
 	string fileName = nameStream.str();
 
 	// create the surface and save the current screen to it.
-	Surface screenShot = loadImage( loadResource(RES_START) );
-	uint8_t* surfaceData2_ = screenShot.getData();
+	//Surface screenShot = loadImage( loadResource(RES_START) );
+	//uint8_t* surfaceData2_ = screenShot.getData();
 
-	for(int y = 0; y < imgHeight_; y++){
-		for(int x = 0; x < imgWidth_; x++){
-			int offset2 = 3*(x + y*surfaceSize_);
-			int offset1 = 3*(x + y*imgWidth_);
-			surfaceData2_[offset1] = surfaceData_[offset2];
-			surfaceData2_[offset1 + 1] = surfaceData_[offset2 + 1];
-			surfaceData2_[offset1 + 2] = surfaceData_[offset2 + 2];
-		}
-	}
+	//for(int y = 0; y < imgHeight_; y++){
+		//for(int x = 0; x < imgWidth_; x++){
+			//int offset2 = 3*(x + y*surfaceSize_);
+			//int offset1 = 3*(x + y*imgWidth_);
+			//surfaceData2_[offset1] = surfaceData_[offset2];
+			//surfaceData2_[offset1 + 1] = surfaceData_[offset2 + 1];
+			//surfaceData2_[offset1 + 2] = surfaceData_[offset2 + 2];
+		//}
+	//}
 
 	// save the screenshot
-	writeImage(fileName,screenShot);
+	writeImage(fileName,*m_surface);
 
 	//delete(surfaceData2_);
 }
